@@ -24,7 +24,6 @@ import com.fasterxml.jackson.core.PrettyPrinter;
 import com.fasterxml.jackson.core.util.DefaultIndenter;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter.Indenter;
-import com.fasterxml.jackson.core.util.Separators;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
@@ -128,17 +127,8 @@ public class SnapshotMatcher {
   }
 
   private static PrettyPrinter buildDefaultPrettyPrinter() {
-    DefaultPrettyPrinter pp =
-        new DefaultPrettyPrinter("") {
-          @Override
-          public DefaultPrettyPrinter withSeparators(Separators separators) {
-            this._separators = separators;
-            this._objectFieldValueSeparatorWithSpaces =
-                separators.getObjectFieldValueSeparator() + " ";
-            return this;
-          }
-        };
-    Indenter lfOnlyIndenter = new DefaultIndenter("  ", "\n");
+    final Indenter lfOnlyIndenter = new DefaultIndenter("  ", "\n");
+    final DefaultPrettyPrinter pp = new DefaultPrettyPrinter("");
     pp.indentArraysWith(lfOnlyIndenter);
     pp.indentObjectsWith(lfOnlyIndenter);
     return pp;
